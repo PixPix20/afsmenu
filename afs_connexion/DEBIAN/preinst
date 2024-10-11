@@ -1,0 +1,22 @@
+#!/bin/bash
+set -e
+
+# Demande à l'utilisateur son nom d'utilisateur
+USERNAME=$(whiptail --inputbox "Veuillez entrer votre nom d'utilisateur:" 10 60 3>&1 1>&2 2>&3)
+if [ $? -ne 0 ]; then
+    echo "Installation annulée."
+    exit 1
+fi
+
+# Demande à l'utilisateur le chemin distant
+#REMOTE_PATH=$(whiptail --inputbox "Veuillez entrer le chemin distant:" 10 60 3>&1 1>&2 2>&3)
+#if [ $? -ne 0 ]; then
+#    echo "Installation annulée."
+#    exit 1
+#fi
+
+# Enregistrement des données dans un fichier de configuration
+echo "USER=$USERNAME" > /etc/afs_connexion.conf
+#echo "REMOTE_PATH=$REMOTE_PATH" >> /etc/afs_connexiononscript.conf
+
+exit 0
