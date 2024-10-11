@@ -1,8 +1,16 @@
 #!/bin/bash
 
+#Vérification de la connexion
+if ! ping -c 1 -W 3 "https://google.com" > /dev/null; then
+    handle_error "Impossible de se connecter à Internet. Vérifiez la connexion réseau."
+    exit 1
+fi
+
+
+
 # Chargement des données de configuration
-if [ -f /etc/monscript.conf ]; then
-    source /etc/monscript.conf
+if [ -f /etc/afs_configuration.conf ]; then
+    source /etc/afs_configuration.conf
 else
     echo "Le fichier de configuration est manquant. Veuillez réinstaller le script."
     exit 1
@@ -125,7 +133,7 @@ echo "Vous pouvez ajouter ce dossier dans vos signets mais pensez à vous reconn
 #if ! sshfs -o reconnect "$USER@$REMOTE_SERVER:$REMOTE_PATH" "$LOCAL_MOUNT_POINT"; then
 #    handle_error "Échec de la connexion à l'AFS via SSHFS"
 #fi
-echo "Connecté avec succès à l'AFS à l'emplacement $LOCAL_MOUNT_POINT."
+echo "Connecté avec succès à l'AFS à l'emplacement " #$LOCAL_MOUNT_POINT."
 sleep 5
 
 
