@@ -6,7 +6,7 @@ if [ -f /etc/afs_configuration.conf ]; then
     #USERNAME=$(grep USER /etc/afs_configuration.conf | cut -d= -f2)
     echo "Un fichier de configuration est déja présent."
 else
-    USERNAME=$(whiptail --inputbox "Veuillez entrer votre nom d'utilisateur:" 10 60 3>&1 1>&2 2>&3)
+    USERNAME=$(whiptail --inputbox "Veuillez entrer votre nom d'utilisateur (prenom.nom) de votre compte EPITA :" 10 60 3>&1 1>&2 2>&3)
     if [ $? -ne 0 ]; then
         echo "Installation annulée."
         exit 1

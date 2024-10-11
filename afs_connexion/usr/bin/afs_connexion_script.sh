@@ -7,12 +7,22 @@ if ! ping -c 1 -W 3 "google.com" > /dev/null; then
 fi
 
 # Chargement des données de configuration
-if [ -f /etc/afs_configuration.conf ]; then
-    source /etc/afs_configuration.conf
-else
-    echo "Le fichier de configuration est manquant. Veuillez réinstaller le script."
-    exit 1
-fi
+for ((attempt=1; attempt<=2; attempt++)); do
+    if [ -f /etc/afs_configuration.conf ]; then
+        source /etc/afs_configuration.conf
+        break
+    else
+        echo "Le fichier de configuration est manquant. Voulez vous reconfigurer l'AFS ? (y/n)"
+        read reconfigure
+        if [ "$reconfigure"=='y']; then
+            echo "Entrez votre nom d'utilisateur (prenom.nom) de votre compte EPITA : "
+            read USERNAME
+            echo "USER=$USERNAME" > /etc/afs_configuration.conf
+        else
+            echo "Impossible de continuer sans fichier de configuration."
+            exit 1
+        fi
+    fi
 # Variables de configuration
 
 # Transformation pour extraire les lettres
