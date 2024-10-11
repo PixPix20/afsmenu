@@ -1,12 +1,10 @@
 #!/bin/bash
 
 #Vérification de la connexion
-if ! ping -c 1 -W 3 "https://google.com" > /dev/null; then
+if ! ping -c 1 -W 3 "google.com" > /dev/null; then
     handle_error "Impossible de se connecter à Internet. Vérifiez la connexion réseau."
     exit 1
 fi
-
-
 
 # Chargement des données de configuration
 if [ -f /etc/afs_configuration.conf ]; then

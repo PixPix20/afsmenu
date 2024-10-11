@@ -16,7 +16,7 @@ fi
 #fi
 
 # Enregistrement des données dans un fichier de configuration
-echo "USER=$USERNAME" > /etc/afs_connexion.conf
-#echo "REMOTE_PATH=$REMOTE_PATH" >> /etc/afs_connexiononscript.conf
+echo "USER=$USERNAME" > /etc/afs_configuration.conf
+#echo "REMOTE_PATH=$REMOTE_PATH" >> /etc/afs_configuration.conf
 
 exit 0
