@@ -7,32 +7,42 @@ if ! ping -c 1 -W 3 "google.com" > /dev/null; then
 fi
 
 # Chargement des données de configuration
+
 for ((attempt=1; attempt<=2; attempt++)); do
+  
     if [ -f /etc/afs_configuration.conf ]; then
         source /etc/afs_configuration.conf
         break
     else
-        echo "Le fichier de configuration est manquant. Voulez vous reconfigurer l'AFS ? (y/n)"
+        
+        echo "
+Le fichier de configuration est manquant. 
+Attention cette action demande un accès administrateur
+Voulez vous reconfigurer l'AFS ? (y/n)
+"
+        
         read reconfigure
-        if [ "$reconfigure"=='y']; then
+        if [ "$reconfigure" == 'y' ]; then
             echo "Entrez votre nom d'utilisateur (prenom.nom) de votre compte EPITA : "
             read USERNAME
-            echo "USER=$USERNAME" > /etc/afs_configuration.conf
+            echo "USERNAME=$USERNAME" | sudo tee /etc/afs_configuration.conf
+            
         else
             echo "Impossible de continuer sans fichier de configuration."
             exit 1
         fi
     fi
+done
 # Variables de configuration
 
 # Transformation pour extraire les lettres
-premiere_lettre=$(echo "$prenom" | head -c 1)
-deuxieme_lettre=$(echo "$prenom" | head -c 2)
+first_letter=$(echo "$USERNAME" | head -c 1)
+second_letter=$(echo "$USERNAME" | head -c 2)
 
 #USER=""
 DOMAIN="CRI.EPITA.FR"
-REMOTE_SERVER="ssh.cri.epita.fr"
-REMOTE_PATH="/afs/cri.epita.fr/user/$premiere_lettre/$deuxieme_lettre/$prenom/u/"
+SSH_SERVER="ssh.cri.epita.fr"
+#REMOTE_PATH="/afs/cri.epita.fr/user/$premiere_lettre/$deuxieme_lettre/$USERNAME/u/"
 #LOCAL_MOUNT_POINT="./afs_mount"
 #AFS_PARTITION="afs/"
 AFS_PATH="$HOME"
@@ -61,8 +71,8 @@ echo "Toutes les dépendances sont présentes."
 
 # Génération du ticket Kerberos
 for ((attempt=1; attempt<=3; attempt++)); do
-    echo "Génération du ticket Kerberos pour $USER@$DOMAIN (Tentative $attempt/3)..."
-    if kinit -f "$USER@$DOMAIN"; then
+    echo "Génération du ticket Kerberos pour $USERNAME@$DOMAIN (Tentative $attempt/3)..."
+    if kinit -f "$USERNAME@$DOMAIN"; then
         echo "Ticket généré avec succès."
         sleep 2
         break  # Sortie de la boucle si kinit réussit
@@ -75,19 +85,23 @@ for ((attempt=1; attempt<=3; attempt++)); do
     
 done
 
-for ((attempt=1; attempt<=3; attempt++)); do
-    echo "Génération du ticket Kerberos pour $USER@$DOMAIN (Tentative $attempt/3)..."
+sleep 5
+
+for ((attempt=1; attempt<=2; attempt++)); do
+    echo "Tentative de connection à l'AFS $USERNAME@$SSH_SERVER (Tentative $attempt/3)..."
     
     # Correctement formater la commande sshfs
-    if sshfs -o reconnect "$USER@$DOMAIN:/afs/cri.epita.fr/user/$premiere_lettre/$deuxieme_lettre/$USER/u/" "$HOME/afs"; then
+    if sshfs -o reconnect "$USERNAME@$SSH_SERVER:/afs/cri.epita.fr/user/$first_letter/$second_letter/$USERNAME/u/" "$HOME/afs"; then
         echo "Connexion SSHFS réussie."
         sleep 2
         break  # Sortie de la boucle si sshfs réussit
     else
-        echo "Échec de la connexion SSHFS. Tentative $attempt échouée."
+      
+        echo "Échec de la connexion SSHFS. Nouvelle tentative dans 3 secondes."
+        sleep 3
     fi
     
-    if [ $attempt -eq 3 ]; then
+    if [ $attempt -eq 2 ]; then
         handle_error "Échec de la connexion SSHFS après 3 tentatives."
     fi
 done
@@ -143,5 +157,3 @@ echo "Vous pouvez ajouter ce dossier dans vos signets mais pensez à vous reconn
 #fi
 echo "Connecté avec succès à l'AFS à l'emplacement " #$LOCAL_MOUNT_POINT."
 sleep 5
-
-
