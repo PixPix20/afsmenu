@@ -7,7 +7,6 @@ if ! ping -c 1 -W 3 "google.com" > /dev/null; then
 fi
 
 # Chargement des données de configuration
-
 for ((attempt=1; attempt<=2; attempt++)); do
   
     if [ -f /etc/afs_configuration.conf ]; then
@@ -17,10 +16,10 @@ for ((attempt=1; attempt<=2; attempt++)); do
         
         echo "
 Le fichier de configuration est manquant. 
-Attention cette action demande un accès administrateur
+Attention cette action demande un accès administrateur.
+
 Voulez vous reconfigurer l'AFS ? (y/n)
 "
-        
         read reconfigure
         if [ "$reconfigure" == 'y' ]; then
             echo "Entrez votre nom d'utilisateur (prenom.nom) de votre compte EPITA : "
@@ -45,6 +44,8 @@ SSH_SERVER="ssh.cri.epita.fr"
 #REMOTE_PATH="/afs/cri.epita.fr/user/$premiere_lettre/$deuxieme_lettre/$USERNAME/u/"
 #LOCAL_MOUNT_POINT="./afs_mount"
 #AFS_PARTITION="afs/"
+
+#création du dossier de l'afs dans le repertoire de l'user
 AFS_PATH="$HOME"
 if [ ! -d "$AFS_PATH/afs" ]; then
     mkdir -p $AFS_PATH/"afs"    
@@ -65,10 +66,6 @@ for cmd in kinit sshfs umount; do
 done
 echo "Toutes les dépendances sont présentes."
 
-#création du dossier de l'afs dans le repertoire de l'user
-
-
-
 # Génération du ticket Kerberos
 for ((attempt=1; attempt<=3; attempt++)); do
     echo "Génération du ticket Kerberos pour $USERNAME@$DOMAIN (Tentative $attempt/3)..."
@@ -78,23 +75,23 @@ for ((attempt=1; attempt<=3; attempt++)); do
         break  # Sortie de la boucle si kinit réussit
     else
         echo "Échec de la génération du ticket Kerberos. Veuillez réessayer."
+        slepp 2
     fi
     if [ $attempt -eq 3 ]; then
         handle_error "Échec de l'authentification Kerberos après 3 tentatives."
     fi
     
 done
-
-sleep 5
-
+#sleep 5
 for ((attempt=1; attempt<=2; attempt++)); do
     echo "Tentative de connection à l'AFS $USERNAME@$SSH_SERVER (Tentative $attempt/3)..."
     
     # Correctement formater la commande sshfs
     if sshfs -o reconnect "$USERNAME@$SSH_SERVER:/afs/cri.epita.fr/user/$first_letter/$second_letter/$USERNAME/u/" "$HOME/afs"; then
-        echo "Connexion SSHFS réussie."
+        echo "Connexion SSHFS réussie.
+        Votre AFS se trouve dans votre dossier personnel."
         sleep 2
-        break  # Sortie de la boucle si sshfs réussit
+        break  # Sortie de la boucle si SSHFS réussit
     else
       
         echo "Échec de la connexion SSHFS. Nouvelle tentative dans 3 secondes."
@@ -107,6 +104,7 @@ for ((attempt=1; attempt<=2; attempt++)); do
 done
 
 echo "Vous pouvez ajouter ce dossier dans vos signets mais pensez à vous reconnecter !"
+
 # Vérification de l'état du réseau
 #echo "Vérification de la connexion réseau..."
 #if ! ping -c 1 -W 3 "$REMOTE_SERVER" > /dev/null; then
@@ -155,5 +153,5 @@ echo "Vous pouvez ajouter ce dossier dans vos signets mais pensez à vous reconn
 #if ! sshfs -o reconnect "$USER@$REMOTE_SERVER:$REMOTE_PATH" "$LOCAL_MOUNT_POINT"; then
 #    handle_error "Échec de la connexion à l'AFS via SSHFS"
 #fi
-echo "Connecté avec succès à l'AFS à l'emplacement " #$LOCAL_MOUNT_POINT."
+echo "Connecté avec succès à l'AFS"
 sleep 5
