@@ -24,17 +24,5 @@ else
     echo "La configuration a été rajoutée."
 fi
 echo "SSH configuré."
+ 
 
-echo "Entrez votre identifiant EPITA(prenom.nom) : "
-read username
-
-# Transformation pour extraire les lettres du nom d'utilisateur
-#Exemple prenom.nom -> first_char=p, second_char=pr
-#Cette étape est obligatoire pour se connecter à son AFS 
-
-first_char=$(echo "$username" | head -c 1)
-second_char=$(echo "$username" | head -c 2)
-
-afs_path="/afs/cri.epita.fr/user/$first_char/$second_char/$username/u/"
-
-echo "Le chemin de votre AFS est : $afs_path"

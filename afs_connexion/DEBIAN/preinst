@@ -1,17 +1,25 @@
 #!/bin/bash
 set -e
 
+
+#Attention cette partie supprime le contenu de l conf à chaque reinstallation ! c'est un bug !
 # Demande à l'utilisateur son nom d'utilisateur
-if [ -f /etc/afs_configuration.conf ]; then
+#if [ -f /etc/afs_configuration.conf ]; then
     #USERNAME=$(grep USER /etc/afs_configuration.conf | cut -d= -f2)
-    echo "Un fichier de configuration est déja présent."
-else
-    USERNAME=$(whiptail --inputbox "Veuillez entrer votre nom d'utilisateur (prenom.nom) de votre compte EPITA :" 10 60 3>&1 1>&2 2>&3)
+#    echo "Un fichier de configuration est déja présent."
+#else
+#    USERNAME=$(whiptail --inputbox "Veuillez entrer votre nom d'utilisateur (prenom.nom) de votre compte EPITA :" 10 60 3>&1 1>&2 2>&3)
+#    if [ $? -ne 0 ]; then
+#        echo "Installation annulée."
+#        exit 1
+#    fi
+#fi
+
+USERNAME=$(whiptail --inputbox "Veuillez entrer votre nom d'utilisateur (prenom.nom) de votre compte EPITA :" 10 60 3>&1 1>&2 2>&3)
     if [ $? -ne 0 ]; then
         echo "Installation annulée."
         exit 1
     fi
-fi
 # Demande à l'utilisateur le chemin distant
 #REMOTE_PATH=$(whiptail --inputbox "Veuillez entrer le chemin distant:" 10 60 3>&1 1>&2 2>&3)
 #if [ $? -ne 0 ]; then
