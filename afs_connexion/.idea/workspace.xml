@@ -5,14 +5,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="209def0c-602f-4c73-a94a-35df7fe0c125" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/version_snap/snap/snapcraft.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/DEBIAN/control" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/DEBIAN/preinst" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/installation.sh" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/usr/bin/afs_connexion_script.sh" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/usr/share/applications/afs-connexion.desktop" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/usr/share/icons/afs_menu/logo.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/version_deb/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/version_deb/.idea/indexLayout.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/version_deb/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/version_deb/DEBIAN/control" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/version_deb/DEBIAN/preinst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/version_deb/installation.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/version_deb/usr/bin/afs_connexion_script.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/version_deb/usr/share/applications/afs-connexion.desktop" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/version_deb/usr/share/icons/afs_menu/logo.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/version_snap/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/version_snap/.idea/indexLayout.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/version_snap/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/version_snap/snap/gui/afs-connexion.desktop" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/version_snap/snap/gui/logo.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/version_snap/snap/snapcraft.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/version_snap/src/afs_configuration.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/version_snap/src/afs_connexion_script.sh" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,7 +64,8 @@
       <updated>1728944938756</updated>
       <workItem from="1728944941544" duration="4815000" />
       <workItem from="1728949778054" duration="76000" />
-      <workItem from="1729016550475" duration="10092000" />
+      <workItem from="1729016550475" duration="10397000" />
+      <workItem from="1729027884853" duration="1045000" />
     </task>
     <task id="LOCAL-00001" summary="Gros changement de structure">
       <option name="closed" value="true" />
