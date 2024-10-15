@@ -2,7 +2,7 @@
 
 # Fonction pour gérer les erreurs et arrêter le script en cas d'échec
 function handle_error {
-    echo "Erreur rencontrée : $1. Arrêt du script."
+    echo "Erreur rencontrée : $1. Arrêt de la connexion !"
     sleep 3
     exit 1
 }
@@ -34,8 +34,8 @@ function start {
 
   # Chargement des données de configuration
   for ((attempt=1; attempt<=2; attempt++)); do 
-      if [ -f /etc/afs_configuration.conf ]; then
-          source /etc/afs_configuration.conf       
+      if [ -f "$HOME/.afs/afs_configuration.conf" ]; then
+          source "$HOME/.afs/afs_configuration.conf"       
       elif [ "$USERNAME" == "" ]; then
           reconfiguration
           break
@@ -52,19 +52,28 @@ function start {
 
 # Fonction pour regénérer la configuration
 function reconfiguration {
+  
   echo "
-       Le fichier de configuration est manquant et/ou est incomplet ! 
-       Attention cette action demande un accès administrateur.
-       
+       Le fichier de configuration est manquant et/ou est incomplet !
        Voulez-vous reconfigurer l'AFS ? (y/n)
        "
-  read reconfigure
-  if [ "$reconfigure" == 'y' ]; then
-      echo "Entrez votre nom d'utilisateur (prenom.nom) de votre compte EPITA : "
-      read USERNAME
-      echo "USERNAME=$USERNAME" | sudo tee /etc/afs_configuration.conf
+  read choice
+  if [ "$choice" == 'y' ]; then
+    
+      # Si le dossier de configuration a été supprimé on le regénère.
+        if [ ! -d "$HOME/.afs/" ]; then
+          mkdir "$HOME/.afs/"
+        fi
+        
+      #echo "Entrez votre nom d'utilisateur (prenom.nom) de votre compte EPITA : "
+      USERNAME=$(whiptail --inputbox "Veuillez entrer votre nom d'utilisateur (prenom.nom) de votre compte EPITA :" 10 60 3>&1 1>&2 2>&3)
+        if [ $? -ne 0 ]; then
+                handle_error "Impossible de continuer sans un fichier de configuration valide !"
+                exit 1
+        fi
+      echo "USERNAME=$USERNAME" > "$HOME/.afs/afs_configuration.conf"
   else
-      handle_error "Impossible de continuer sans un fichier de configuration valide."
+      handle_error "Impossible de continuer sans un fichier de configuration valide !"
   fi
 }
 
@@ -75,10 +84,10 @@ function ticket_generation {
   
   # Génération du ticket Kerberos
   for ((attempt=1; attempt<=3; attempt++)); do
-      echo "Génération du ticket Kerberos pour $USERNAME@$DOMAIN (Tentative $attempt/3)..."
+      echo "Génération du ticket Kerberos pour $USERNAME@$DOMAIN (Tentative n°$attempt/3)..."
       if kinit -f "$USERNAME@$DOMAIN"; then
+        sleep 2
           echo "Ticket généré avec succès."
-          sleep 2
           break  # Sortie de la boucle si kinit réussit
       else
           echo "Échec de la génération du ticket Kerberos. Veuillez réessayer."
