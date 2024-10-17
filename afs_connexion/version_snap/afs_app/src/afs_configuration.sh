@@ -3,7 +3,7 @@
 # Demande à l'utilisateur d'entrer son nom d'utilisateur
 USERNAME=$(whiptail --inputbox "Veuillez entrer votre nom d'utilisateur (prenom.nom) de votre compte EPITA :" 10 60 3>&1 1>&2 2>&3)
 if [ $? -ne 0 ]; then
-    echo "Installation annulée."
+    whiptail --title "Installation" --infobox  "Installation annulée." 10 60 3>&1 1>&2 2>&3
     exit 1
 fi
 

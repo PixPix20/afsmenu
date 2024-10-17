@@ -11,6 +11,7 @@ base: core20                  # Base du snap (core, core18, core20, core22, ...)
 parts:
   afs-connexion:
     source: ./src             # Indique le dossier où sont situés les fichiers
+    source-type: local
     plugin: dump              # Simplement copier les fichiers du projet
     stage-packages:           # Ajouter des dépendances si nécessaire
       - whiptail
@@ -28,7 +29,7 @@ hooks:
 apps:
   afs-connexion:
     command: bin/afs_connexion_script.sh
-    desktop: gui/afs_connexion.desktop  # Indique le fichier .desktop à utiliser
+    desktop: ./gui/afs.desktop
     environment:
       SNAP_APP_CONFIG: $SNAP/config.cfg
     plugs:

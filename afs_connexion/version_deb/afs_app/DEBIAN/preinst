@@ -15,12 +15,44 @@ set -e
 #    fi
 #fi
 
+function message {
+  (whiptail --title "Installation" --infobox "$1" 10 60 )
+}
+
 USERNAME=$(whiptail --inputbox "Veuillez entrer votre nom d'utilisateur (prenom.nom) de votre compte EPITA :" 10 60 3>&1 1>&2 2>&3)
     if [ $? -ne 0 ]; then
-        echo "Installation annulée."
+        message "Installation annulée."
+        sleep 2
         exit 1
     fi
-  
+
+message "Configuration SSH..."
+SSH_CONFIG="$HOME/.ssh/config"
+# Vérifie si le fichier de configuration existe, sinon le crée
+if [ ! -f "$SSH_CONFIG" ]; then
+    touch "$SSH_CONFIG"
+fi
+HOST_CONFIG="Host git.cri.epita.fr
+      GSSAPIAuthentication yes
+    
+    Host ssh.cri.epita.fr
+      GSSAPIAuthentication yes
+      GSSAPIDelegateCredentials yes
+      "
+
+if grep -Fxq "Host" "$SSH_CONFIG"; then
+    message "Le SSH et déja configuré sur : $SSH_CONFIG. Aucune action requise."
+else
+    message "Configuration du SSH : $SSH_CONFIG."
+    # Ajoute l'entrée au fichier de configuration
+    echo "$HOST_CONFIG" >> "$SSH_CONFIG"
+    message  "La configuration a été rajoutée."
+
+fi
+message  "SSH configuré."
+ 
+
+
 # Demande à l'utilisateur le chemin distant
 #REMOTE_PATH=$(whiptail --inputbox "Veuillez entrer le chemin distant:" 10 60 3>&1 1>&2 2>&3)
 #if [ $? -ne 0 ]; then
@@ -29,10 +61,15 @@ USERNAME=$(whiptail --inputbox "Veuillez entrer votre nom d'utilisateur (prenom.
 #fi
 
 # Enregistrement des données dans un fichier de configuration
-if [ -d "$HOME/.afs/" ]; then
-  mkdir "$HOME/.afs/"
+if [ ! -d "$HOME/.afs" ]; then
+  mkdir "$HOME/.afs"
+  if [ ! -f "$HOME/.afs/afs_configuration.conf" ]; then
+    touch "$HOME/.afs/afs_configuration.conf"
+  fi
 fi
+
 echo "USERNAME=$USERNAME" > "$HOME/.afs/afs_configuration.conf"
 #echo "REMOTE_PATH=$REMOTE_PATH" >> "$HOME/.afs/afs_configuration.conf"
+(whiptail --title "Installation" --msgbox "Installation terminée." 10 60)
 
 exit 0

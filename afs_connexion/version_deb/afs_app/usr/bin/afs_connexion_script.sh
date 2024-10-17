@@ -7,6 +7,10 @@ function handle_error {
     exit 1
 }
 
+function message {
+  (whiptail --title "Connexion" --infobox "$1" 10 60)
+}
+
 function start {
   # La phase de lancement se déroule en 3 étapes :
   # 1. Vérification de la connexion internet (sans internet c'est dur d'avoir son AFS)
