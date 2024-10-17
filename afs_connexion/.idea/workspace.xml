@@ -4,13 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="209def0c-602f-4c73-a94a-35df7fe0c125" name="Changes" comment="nouveau">
+    <list default="true" id="209def0c-602f-4c73-a94a-35df7fe0c125" name="Changes" comment="coloration de cert">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/version_deb/afs_app/DEBIAN/control" beforeDir="false" afterPath="$PROJECT_DIR$/version_deb/afs_app/DEBIAN/control" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/version_deb/afs_app/DEBIAN/preinst" beforeDir="false" afterPath="$PROJECT_DIR$/version_deb/afs_app/DEBIAN/preinst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/version_deb/afs_app/usr/bin/afs_connexion_script.sh" beforeDir="false" afterPath="$PROJECT_DIR$/version_deb/afs_app/usr/bin/afs_connexion_script.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/version_snap/afs_app/snap/gui/afs_connexion.desktop" beforeDir="false" afterPath="$PROJECT_DIR$/version_snap/afs_app/snap/gui/afs.desktop" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/version_snap/afs_app/snap/snapcraft.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/version_snap/afs_app/snapcraft.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/version_snap/afs_app/src/afs_configuration.sh" beforeDir="false" afterPath="$PROJECT_DIR$/version_snap/afs_app/src/afs_configuration.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/version_deb/afs_app/usr/bin/afs_connexion_script.sh" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -19,7 +17,6 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
-    <option name="UPDATE_TYPE" value="REBASE" />
   </component>
   <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
   <component name="ProjectColorInfo">{
@@ -54,7 +51,9 @@
       <workItem from="1728949778054" duration="76000" />
       <workItem from="1729016550475" duration="10397000" />
       <workItem from="1729027884853" duration="3538000" />
-      <workItem from="1729148762092" duration="2392000" />
+      <workItem from="1729148762092" duration="2614000" />
+      <workItem from="1729160673094" duration="4764000" />
+      <workItem from="1729166575756" duration="9360000" />
     </task>
     <task id="LOCAL-00001" summary="Gros changement de structure">
       <option name="closed" value="true" />
@@ -72,7 +71,23 @@
       <option name="project" value="LOCAL" />
       <updated>1729029994636</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="changement de l'interface d'installation">
+      <option name="closed" value="true" />
+      <created>1729151235564</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1729151235564</updated>
+    </task>
+    <task id="LOCAL-00004" summary="fichier en trop">
+      <option name="closed" value="true" />
+      <created>1729151311794</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1729151311794</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -95,6 +110,8 @@
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
     <MESSAGE value="Gros changement de structure" />
     <MESSAGE value="nouveau" />
-    <option name="LAST_COMMIT_MESSAGE" value="nouveau" />
+    <MESSAGE value="changement de l'interface d'installation" />
+    <MESSAGE value="fichier en trop" />
+    <option name="LAST_COMMIT_MESSAGE" value="fichier en trop" />
   </component>
 </project>

@@ -16,17 +16,23 @@ set -e
 #fi
 
 function message {
-  (whiptail --title "Installation" --infobox "$1" 10 60 )
+  (whiptail --title "Installation" --msgbox "$1" 10 60 )
 }
 
 USERNAME=$(whiptail --inputbox "Veuillez entrer votre nom d'utilisateur (prenom.nom) de votre compte EPITA :" 10 60 3>&1 1>&2 2>&3)
     if [ $? -ne 0 ]; then
         message "Installation annulée."
-        sleep 2
         exit 1
     fi
 
-message "Configuration SSH..."
+#AUTOCONNEXION=$(whiptail --title "Configuration" --yesno "Voulez-vous vous connecter à l'ouverture de votre session ?"10 60 3>&1 1>&2 2>&3)
+
+#if AUTOCONNEXION = yes ; then
+  #/etc/init.d
+#  touch "/etc/ini.d/afs.sh"
+  
+#fi
+echo "Configuration SSH..."
 SSH_CONFIG="$HOME/.ssh/config"
 # Vérifie si le fichier de configuration existe, sinon le crée
 if [ ! -f "$SSH_CONFIG" ]; then
@@ -41,35 +47,34 @@ HOST_CONFIG="Host git.cri.epita.fr
       "
 
 if grep -Fxq "Host" "$SSH_CONFIG"; then
-    message "Le SSH et déja configuré sur : $SSH_CONFIG. Aucune action requise."
+    echo "Le SSH et déja configuré sur : $SSH_CONFIG. Aucune action requise."
 else
-    message "Configuration du SSH : $SSH_CONFIG."
+    echo "Configuration du SSH : $SSH_CONFIG."
     # Ajoute l'entrée au fichier de configuration
     echo "$HOST_CONFIG" >> "$SSH_CONFIG"
-    message  "La configuration a été rajoutée."
+    echo  "La configuration a été rajoutée."
 
 fi
-message  "SSH configuré."
+echo  "\033[32m SSH configuré."
  
 
 
 # Demande à l'utilisateur le chemin distant
 #REMOTE_PATH=$(whiptail --inputbox "Veuillez entrer le chemin distant:" 10 60 3>&1 1>&2 2>&3)
 #if [ $? -ne 0 ]; then
-#    echo "Installation annulée."
+#    message "Installation annulée."
 #    exit 1
 #fi
 
 # Enregistrement des données dans un fichier de configuration
 if [ ! -d "$HOME/.afs" ]; then
   mkdir "$HOME/.afs"
-  if [ ! -f "$HOME/.afs/afs_configuration.conf" ]; then
-    touch "$HOME/.afs/afs_configuration.conf"
+  if [ ! -f "$HOME/.afs/configuration.conf" ]; then
+    touch "$HOME/.afs/configuration.conf"
   fi
 fi
 
-echo "USERNAME=$USERNAME" > "$HOME/.afs/afs_configuration.conf"
+echo "USERNAME=$USERNAME" >> "$HOME/.afs/configuration.conf"
 #echo "REMOTE_PATH=$REMOTE_PATH" >> "$HOME/.afs/afs_configuration.conf"
 (whiptail --title "Installation" --msgbox "Installation terminée." 10 60)
-
 exit 0

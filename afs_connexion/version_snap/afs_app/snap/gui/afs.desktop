@@ -1,9 +1,0 @@
-[Desktop Entry]
-Name=AFS Connexion
-Comment=Connexion automatique à l'AFS
-Exec=afs-connexion
-Icon=${SNAP}/meta/gui/logo.png
-Terminal=true
-StartupNotify=false
-Type=Application
-Categories=Utility;

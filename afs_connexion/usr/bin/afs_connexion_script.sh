@@ -1,14 +1,25 @@
 #!/bin/bash
 
 # Fonction pour gérer les erreurs et arrêter le script en cas d'échec
-function handle_error {
-    echo "Erreur rencontrée : $1. Arrêt de la connexion !"
+function error {
+    echo "\033[31m $1. Arrêt de la connexion ! \041[0m" #affiche le texte en rouge
     sleep 3
     exit 1
 }
-
-function message {
-  (whiptail --title "Connexion" --infobox "$1" 10 60)
+function warning {
+  echo "\033[43;33m $1 \033[43;0m" #affiche le texte en orange
+  sleep 3
+}
+function success {
+  echo "\033[32m $1 \033[0m " #affiche le texte en vert
+  sleep 2
+}
+function info {
+  echo "$1"
+  sleep 2
+}
+function debug {
+  echo " $1 "
 }
 
 function start {
@@ -24,22 +35,22 @@ function start {
   
   # Vérification de la connexion
   if ! ping -c 1 -W 3 "google.com" > /dev/null; then
-      handle_error "Impossible de se connecter à Internet. Vérifiez la connexion réseau."
+      error "Impossible de se connecter à Internet. Vérifiez la connexion réseau."
   fi
   
   # Vérification des dépendances requises (kinit, sshfs)
-  echo "Vérification des dépendances..."
+  info "Vérification des dépendances..."
   for cmd in kinit sshfs; do
       if ! command -v "$cmd" &> /dev/null; then
-          handle_error "La commande '$cmd' n'est pas installée ou introuvable."
+          error "La commande '$cmd' n'est pas installée ou introuvable."
       fi
   done
-  echo "Toutes les dépendances sont présentes."
+  success "Toutes les dépendances sont présentes."
 
   # Chargement des données de configuration
   for ((attempt=1; attempt<=2; attempt++)); do 
-      if [ -f "$HOME/.afs/afs_configuration.conf" ]; then
-          source "$HOME/.afs/afs_configuration.conf"       
+      if [ -f "$HOME/.afs/configuration.conf" ]; then
+          source "$HOME/.afs/configuration.conf"       
       elif [ "$USERNAME" == "" ]; then
           reconfiguration
           break
@@ -57,7 +68,7 @@ function start {
 # Fonction pour regénérer la configuration
 function reconfiguration {
   
-  echo "
+  warning "
        Le fichier de configuration est manquant et/ou est incomplet !
        Voulez-vous reconfigurer l'AFS ? (y/n)
        "
@@ -66,18 +77,18 @@ function reconfiguration {
     
       # Si le dossier de configuration a été supprimé on le regénère.
         if [ ! -d "$HOME/.afs/" ]; then
+          debug "Création du dossier .afs"
           mkdir "$HOME/.afs/"
         fi
         
       #echo "Entrez votre nom d'utilisateur (prenom.nom) de votre compte EPITA : "
       USERNAME=$(whiptail --inputbox "Veuillez entrer votre nom d'utilisateur (prenom.nom) de votre compte EPITA :" 10 60 3>&1 1>&2 2>&3)
         if [ $? -ne 0 ]; then
-                handle_error "Impossible de continuer sans un fichier de configuration valide !"
-                exit 1
+                error "Impossible de continuer sans un fichier de configuration valide !"
         fi
-      echo "USERNAME=$USERNAME" > "$HOME/.afs/afs_configuration.conf"
+      echo "USERNAME=$USERNAME" >> "$HOME/.afs/configuration.conf"
   else
-      handle_error "Impossible de continuer sans un fichier de configuration valide !"
+      error "Impossible de continuer sans un fichier de configuration valide !"
   fi
 }
 
@@ -89,16 +100,14 @@ function ticket_generation {
   # Génération du ticket Kerberos
   for ((attempt=1; attempt<=3; attempt++)); do
       echo "Génération du ticket Kerberos pour $USERNAME@$DOMAIN (Tentative n°$attempt/3)..."
-      if kinit -f "$USERNAME@$DOMAIN"; then
-        sleep 2
-          echo "Ticket généré avec succès."
+      if (kinit -f "$USERNAME@$DOMAIN"); then
+          success "Ticket généré avec succès."
           break  # Sortie de la boucle si kinit réussit
       else
-          echo "Échec de la génération du ticket Kerberos. Veuillez réessayer."
-          sleep 2
+          warning "Échec de la génération du ticket Kerberos. Veuillez réessayer."
       fi
       if [ $attempt -eq 3 ]; then
-          handle_error "Échec de l'authentification Kerberos après 3 tentatives."
+          error "Échec de l'authentification Kerberos après 3 tentatives."
       fi
   done
 }
@@ -111,20 +120,18 @@ function afs_connection {
   second_letter=$(echo "$USERNAME" | head -c 2)
   
   for ((attempt=1; attempt<=2; attempt++)); do
-      echo "Tentative de connexion à l'AFS $USERNAME@$SSH_SERVER (Tentative $attempt/2)..."
+      info "Tentative de connexion à l'AFS $USERNAME@$SSH_SERVER (Tentative $attempt/2)..."
       
       # Correctement formater la commande sshfs
       if sshfs -o reconnect "$USERNAME@$SSH_SERVER:/afs/cri.epita.fr/user/$first_letter/$second_letter/$USERNAME/u/" "$HOME/afs"; then
-          echo "Connexion SSHFS réussie.
+          success " Connexion SSHFS réussie.
           Votre AFS se trouve dans votre dossier personnel."
-          sleep 2
           break  # Sortie de la boucle si SSHFS réussit
       else
-          echo "Échec de la connexion SSHFS. Nouvelle tentative dans 3 secondes."
-          sleep 3
+          warning "Échec de la connexion SSHFS. Nouvelle tentative dans 3 secondes."
       fi
       if [ $attempt -eq 2 ]; then
-          handle_error "Échec de la connexion SSHFS après 2 tentatives."
+          error "Échec de la connexion SSHFS après 2 tentatives."
       fi
   done
 }
@@ -133,12 +140,13 @@ function file_generation {
   # Création du dossier de l'AFS dans le répertoire de l'utilisateur
   AFS_PATH="$HOME"
   if [ ! -d "$AFS_PATH/afs" ]; then
+    debug "Création du dossier de l'afs."
       mkdir -p "$AFS_PATH/afs"    
   fi
-  echo "Petit tip : Vous pouvez ajouter ce dossier dans vos signets, mais pensez à vous reconnecter !"
+  info "Petit tip : Vous pouvez ajouter ce dossier dans vos signets, mais pensez à vous reconnecter !"
 }
 
 # Démarrer le script
 start
-echo "Connecté avec succès à l'AFS"
+success "Connecté avec succès à l'AFS"
 sleep 5
