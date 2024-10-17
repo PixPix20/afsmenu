@@ -2,24 +2,24 @@
 
 # Fonction pour gérer les erreurs et arrêter le script en cas d'échec
 function error {
-    echo "\033[31m $1. Arrêt de la connexion ! \041[0m" #affiche le texte en rouge
-    sleep 3
-    exit 1
+  echo -e "\033[31m $1. Arrêt de la connexion ! \041[0m" #affiche le texte en rouge
+  sleep 3
+  exit 1
 }
 function warning {
-  echo "\033[43;33m $1 \033[43;0m" #affiche le texte en orange
+  echo -e "\033[33m $1 \033[40m" #affiche le texte en orange
   sleep 3
 }
 function success {
-  echo "\033[32m $1 \033[0m " #affiche le texte en vert
+  echo -e "\033[32m $1 \033[0m " #affiche le texte en vert
   sleep 2
 }
 function info {
-  echo "$1"
+  echo  -e "$1"
   sleep 2
 }
 function debug {
-  echo " $1 "
+  echo -e " $1 " #à venir... mais bon c'est pricipalement pour les devs
 }
 
 function start {
@@ -34,6 +34,21 @@ function start {
   # 3. On se connecte à l'AFS via le dossier de l'AFS dans le dossier personnel (/home/user/afs)
   
   # Vérification de la connexion
+######################################################################### 
+  echo "          _                   _              _ ";
+  echo "         / /\                /\ \           / /\ ";
+  echo "        / /  \              /  \ \         / /  \ ";
+  echo "       / / /\ \            / /\ \ \       / / /\ \__ ";
+  echo "      / / /\ \ \          / / /\ \_\     / / /\ \___\ ";
+  echo "     / / /  \ \ \        / /_/_ \/_/     \ \ \ \/___/ ";
+  echo "    / / /___/ /\ \      / /____/\         \ \ \ ";
+  echo "   / / /_____/ /\ \    / /\____\/     _    \ \ \ ";
+  echo "  / /_________/\ \ \  / / /          /_/\__/ / / ";
+  echo " / / /_       __\ \_\/ / /           \ \/___/ / ";
+  echo " \_\___\     /____/_/\/_/             \_____\/ ";
+  echo ""
+#########################################################################
+  
   if ! ping -c 1 -W 3 "google.com" > /dev/null; then
       error "Impossible de se connecter à Internet. Vérifiez la connexion réseau."
   fi
@@ -73,7 +88,7 @@ function reconfiguration {
        Voulez-vous reconfigurer l'AFS ? (y/n)
        "
   read choice
-  if [ "$choice" == 'y' ]; then
+  if [ $choice == 'y' ]; then
     
       # Si le dossier de configuration a été supprimé on le regénère.
         if [ ! -d "$HOME/.afs/" ]; then
@@ -112,6 +127,27 @@ function ticket_generation {
   done
 }
 
+# Fonction pour vérifier si le disque 'afs' est monté
+function check_afs_connected {
+  if mount | grep -q "$HOME/afs"; then
+      warning "Le disque AFS est déjà monté."
+      return 0
+  else
+      return 1
+  fi
+}
+
+function afs_dismount {
+  # Vérification si le disque est monté
+    info "Démontage du disque AFS en cours..."
+    # Démonter le disque
+    if fusermount -u "$HOME/afs"; then
+        success "Disque AFS démonté avec succès."
+    else
+        error "Échec du démontage du disque AFS."
+    fi
+}
+
 function afs_connection {
   SSH_SERVER="ssh.cri.epita.fr"
   USERNAME=$1
@@ -119,6 +155,19 @@ function afs_connection {
   first_letter=$(echo "$USERNAME" | head -c 1)
   second_letter=$(echo "$USERNAME" | head -c 2)
   
+  # Vérification si le disque est monté avant de se connecter
+  if check_afs_connected; then
+      if whiptail --yesno "Vous êtes déja connecté à l'AFS. 
+      Voulez vous vous déconnecter de l'AFS puis se reconnecter ?" --yes-button "OUI" --no-button "NON" 10 60 3>&1 1>&2 2>&3 ; then
+        afs_dismount
+      
+      else
+        success "Vous êtes déja connecté à l'AFS, pas besoin de vous reconnecter."
+        exit 0
+        
+      fi  
+  fi
+
   for ((attempt=1; attempt<=2; attempt++)); do
       info "Tentative de connexion à l'AFS $USERNAME@$SSH_SERVER (Tentative $attempt/2)..."
       
@@ -138,10 +187,9 @@ function afs_connection {
 
 function file_generation {
   # Création du dossier de l'AFS dans le répertoire de l'utilisateur
-  AFS_PATH="$HOME"
-  if [ ! -d "$AFS_PATH/afs" ]; then
+  if [ ! -d "$HOME/afs" ]; then
     debug "Création du dossier de l'afs."
-      mkdir -p "$AFS_PATH/afs"    
+      mkdir -p "$HOME/afs"    
   fi
   info "Petit tip : Vous pouvez ajouter ce dossier dans vos signets, mais pensez à vous reconnecter !"
 }

@@ -1,8 +1,8 @@
 Package: afs-connexion
-Version: 1.5
+Version: 1.0
 Section: base
 Priority: optional
 Architecture: all
-Maintainer: Lucas lucas.morel@epita.fr
-Depends: krb5-user, sshfs
-Description: Script pour se (re)connecter sur son AFS.
+Maintainer: Lucas (https://github.com/PixPix20)
+Depends: krb5-user, sshfs, whiptail
+Description: Script pour se (re)connecter à son AFS.
