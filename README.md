@@ -4,4 +4,4 @@ Il n'est utilisable **que** sur les OS (système d'exploitation) aillant un noya
 Pour savoir un peu plus comment le script marche, je vous invite à lire le blog du CRI : _https://blog.cri.epita.fr/post/2020-10-30-migration-realm-kerberos/_
 Voici les commandes pour le transformer/installer si vous téléchargez les fichiers depuis le Github.
 -Transformation en fichier .deb : **dpkg-deb --build <nom_du_dossier>**
--Installation : **sudo dpkg -i <nom_du_dossier>.deb**
+-Installation : **sudo apt install ./<nom_du_dossier>.deb** (faite bien attention que vous soyez dans le même dossier que l'archive.deb)
