@@ -49,8 +49,11 @@ function start {
   echo ""
 #########################################################################
   
-  if ! ping -c 1 -W 3 "google.com" > /dev/null; then
-      error "Impossible de se connecter à Internet. Vérifiez la connexion réseau."
+  if ! ping -c 1 -W 3 "cri.epita.fr/" > /dev/null; then
+      error "Impossible de se connecter à l'intranet. 
+      1. Vérifiez que vous êtes connecté à internet.
+      2. Si vous êtes connecté, cela vient peut-être d'EPITA. 
+      3. Consultez le blog du cri pour en savoir plus."
   fi
   
   # Vérification des dépendances requises (kinit, sshfs)
