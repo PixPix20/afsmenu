@@ -1,4 +1,4 @@
-VERSION : 1.0
+VERSION : 1.1
 Ceci est un paquet DEBIAN (.deb) pour automatiser la connexion à son AFS depuis son ordinateur personnel.
 Il n'est utilisable **que** sur les OS (système d'exploitation) aillant un noyau DEBIAN (ubuntu, debian, lubuntu, etc).
 Pour savoir un peu plus comment le script marche, je vous invite à lire le blog du CRI : _https://blog.cri.epita.fr/post/2020-10-30-migration-realm-kerberos/_
