@@ -2,16 +2,16 @@
 
 # Fonction pour gérer les erreurs et arrêter le script en cas d'échec
 function error {
-  echo -e "\033[31m $1. Arrêt de la connexion ! \041[0m" #affiche le texte en rouge
+  echo -e "\033[31m $1. Arrêt de la connexion ! \041[0m" #Affiche le texte en rouge
   sleep 3
   exit 1
 }
 function warning {
-  echo -e "\033[33m $1 \033[40m" #affiche le texte en orange
+  echo -e "\033[33m $1 \033[40m" #Affiche le texte en orange
   sleep 3
 }
 function success {
-  echo -e "\033[32m $1 \033[0m " #affiche le texte en vert
+  echo -e "\033[32m $1 \033[0m " #Affiche le texte en vert
   sleep 2
 }
 function info {
@@ -19,7 +19,7 @@ function info {
   sleep 2
 }
 function debug {
-  echo -e " $1 " #à venir... mais bon c'est pricipalement pour les devs
+  echo -e " $1 " #Cela va venir bientôt... mais bon, c'est principalement pour les devs
 }
 
 function start {
