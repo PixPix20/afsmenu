@@ -24,16 +24,15 @@ function debug {
 
 function start {
   # La phase de lancement se déroule en 3 étapes :
-  # 1. Vérification de la connexion internet (sans internet c'est dur d'avoir son AFS)
-  # 2. Vérification des dépendances
-  # 3. Import de la configuration
+  # 1. Vérification de la connexion internet et des serveurs (sans internet c'est dur d'avoir son AFS)
+  # 2. Vérification des dépendances du logiciel
+  # 3. Import de la configuration de l'utilisateur
   
   # La phase de connexion se déroule en 3 étapes
-  # 1. On génère le ticket Kerberos
+  # 1. On génère le ticket Kerberos d'EPITA
   # 2. On regarde si le dossier de l'AFS existe, sinon on le crée dans le dossier personnel
   # 3. On se connecte à l'AFS via le dossier de l'AFS dans le dossier personnel (/home/user/afs)
   
-  # Vérification de la connexion
 ######################################################################### 
   echo "          _                   _              _ ";
   echo "         / /\                /\ \           / /\ ";
@@ -47,8 +46,10 @@ function start {
   echo " / / /_       __\ \_\/ / /           \ \/___/ / ";
   echo " \_\___\     /____/_/\/_/             \_____\/ ";
   echo ""
+  echo "Version : 1.1"
 #########################################################################
-  
+
+  # Vérification de la connexion
   if ! ping -c 1 -W 3 "cri.epita.fr/" > /dev/null; then
       error "Impossible de se connecter à l'intranet. 
       1. Vérifiez que vous êtes connecté à internet.
@@ -161,7 +162,7 @@ function afs_connection {
   # Vérification si le disque est monté avant de se connecter
   if check_afs_connected; then
       if whiptail --yesno "Vous êtes déja connecté à l'AFS. 
-      Voulez vous vous déconnecter de l'AFS puis se reconnecter ?" --yes-button "OUI" --no-button "NON" 10 60 3>&1 1>&2 2>&3 ; then
+      Voulez vous vous reconnecter ?" --yes-button "OUI" --no-button "NON" 10 60 3>&1 1>&2 2>&3 ; then
         afs_dismount
       
       else
@@ -172,8 +173,7 @@ function afs_connection {
   fi
 
   for ((attempt=1; attempt<=2; attempt++)); do
-      info "Tentative de connexion à l'AFS $USERNAME@$SSH_SERVER (Tentative $attempt/2)..."
-      
+      info "Tentative de connexion à l'AFS $USERNAME@$SSH_SERVER (Tentative : $attempt/2)..."
       # Correctement formater la commande sshfs
       if sshfs -o reconnect "$USERNAME@$SSH_SERVER:/afs/cri.epita.fr/user/$first_letter/$second_letter/$USERNAME/u/" "$HOME/afs"; then
           success " Connexion SSHFS réussie.
