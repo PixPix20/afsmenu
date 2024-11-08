@@ -211,15 +211,15 @@ function prestart {
         source "$language_file_location/lang_en.sh"
       
       else
-        error "Unable to load languages, file missing."
+        error "Impossible de charger les langues, fichier manquant. | Unable to load languages, file missing."
       fi
       
     else
-      error "Unable to load languages, language folder missing."
+      error "Impossible de charger les langues, le dossier des langues est manquant. | Unable to load languages, language folder missing."
     fi
     
   else
-      error "The configuration file is missing !"
+      error "Le fichier de configuration est manquant ! | The configuration file is missing !"
   fi
   start
 }
