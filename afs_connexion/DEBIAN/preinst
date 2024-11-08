@@ -1,67 +1,55 @@
 #!/bin/bash
 set -e
 
+# Variables
+afs_configuration_file_location="$HOME/.afs/configuration.conf"
+ssh_configuration_location="$HOME/.ssh/config"
+afs_configuration_location="$HOME/.afs"
+host_configuration="Host git.cri.epita.fr
+  GSSAPIAuthentication yes
+                       
+Host ssh.cri.epita.fr
+  GSSAPIAuthentication yes
+  GSSAPIDelegateCredentials yes"
+
+# Language selection
+language=$(whiptail --title "Configuration" --menu "Choix de la langue | Language selection" 10 60 2 \
+"fr" "Français" \
+"en" "English" 3>&1 1>&2 2>&3)
+
+# Loading language files
+source "./lang/lang_$language.sh"
+
+# Message display function
 function message {
-  (whiptail --title "Installation" --msgbox "$1" 10 60 )
+  (whiptail --title "$title" --msgbox "$1" 10 60)
 }
 
-#Attention cette partie supprime le contenu de la conf à chaque reinstallation ! c'est un bug !
-# Demande à l'utilisateur son nom d'utilisateur
-if [ -f "$HOME/.afs/configuration.conf" ]; then
-    USERNAME=$(grep USER "$HOME/.afs/configuration.conf" | cut -d= -f2)
-    echo "Un fichier de configuration est déja présent."
+# User name recovery
+if [ -f "$afs_configuration_file_location" ]; then
+    username=$(grep USER "$afs_configuration_file_location" | cut -d= -f2)
 else
-    USERNAME=$(whiptail --title "Installation" --inputbox "Veuillez entrer votre nom d'utilisateur (prenom.nom) de votre compte EPITA :" 10 60 3>&1 1>&2 2>&3)
+    username=$(whiptail --title "$title" --inputbox "$msg_enter_username" 10 60 3>&1 1>&2 2>&3)
     if [ $? -ne 0 ]; then
-        echo "Installation annulée."
+        message "$msg_installation_cancelled"
         exit 1
     fi
 fi
 
-#AUTOCONNEXION=$(whiptail --title "Configuration" --yesno "Voulez-vous vous connecter à l'ouverture de votre session ?"10 60 3>&1 1>&2 2>&3)
+# SSH configuration
 
-#if AUTOCONNEXION = yes ; then
-  #/etc/init.d
-#  touch "/etc/ini.d/afs.sh"
-  
-#fi
-
-#Configuration du SSH, requis pour la connexion aux serveur d'EPITA 
-# ( pour plus d'info voici le blog du CRI "https://blog.cri.epita.fr/post/2020-10-30-migration-realm-kerberos/" )
-echo "Configuration SSH..."
-SSH_CONFIG="$HOME/.ssh/config"
-# Vérifie si le fichier de configuration existe, sinon le crée
-if [ ! -f "$SSH_CONFIG" ]; then
-    touch "$SSH_CONFIG"
-fi
-HOST_CONFIG="Host git.cri.epita.fr
-      GSSAPIAuthentication yes
-    
-    Host ssh.cri.epita.fr
-      GSSAPIAuthentication yes
-      GSSAPIDelegateCredentials yes
-      "
-
-if grep -Fxq "Host" "$SSH_CONFIG"; then
-    echo "Le SSH et déja configuré sur : $SSH_CONFIG. Aucune action requise."
-else
-    echo "Configuration du SSH : $SSH_CONFIG."
-    # Ajoute l'entrée au fichier de configuration
-    echo "$HOST_CONFIG" >> "$SSH_CONFIG"
-    echo  "La configuration a été rajoutée."
-
-fi
-echo -e "\033[32m SSH configuré. \033[0m"
- 
-
-# Enregistrement des données dans un fichier de configuration
-if [ ! -d "$HOME/.afs" ]; then
-  mkdir "$HOME/.afs"
-  if [ ! -f "$HOME/.afs/configuration.conf" ]; then
-    touch "$HOME/.afs/configuration.conf"
-  fi
+if [ ! -f "$ssh_configuration_location" ]; then 
+  touch "$ssh_configuration_location" 
+fi 
+if ! grep -q "Host git.cri.epita.fr" "$ssh_configuration_location"; then 
+  echo "$host_configuration" >> "$ssh_configuration_location" 
 fi
 
-echo "USERNAME=$USERNAME" >> "$HOME/.afs/configuration.conf"
-(whiptail --title "Installation" --msgbox "Installation terminée." 10 60)
+# Create configuration directory if necessary
+mkdir -p "$afs_configuration_location"
 
+# User name registration
+echo "USERNAME=$username" > "$afs_configuration_file_location"
+echo "LANGUAGE=$language" >>"$afs_configuration_file_location"
+
+message "$msg_installation_complete"
