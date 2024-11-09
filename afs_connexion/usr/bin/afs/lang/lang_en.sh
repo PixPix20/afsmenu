@@ -1,4 +1,5 @@
 #!/bin/bash
+#statut
 msg_error="Connection stopped !"
 msg_warning="Warning!"
 msg_no_connection="Unable to connect to the intranet.
