@@ -139,7 +139,7 @@ function ticket_generation {
 # Function to check if the 'afs' disk is mounted
 function check_afs_connected {
   if mount | grep -q "$afs_location"; then
-      warning "$msg_afs_mounted"
+      #warning "$msg_afs_mounted"
       return 0
   else
       return 1
@@ -196,7 +196,13 @@ function file_generation {
   fi
   info "$msg_afs_tip"
 }
-
+#function cloning_afs {
+#  if check_afs_connected; then
+#    sftp -r "$id_epita@$ssh_host"
+  
+#  fi
+#}
+  
 function prestart {
   # Initialize the program before launch
   if [ -f "$afs_configuration_file_location" ]; then
