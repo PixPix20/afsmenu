@@ -78,14 +78,13 @@ function start {
   for ((attempt=1; attempt<=2; attempt++)); do 
       if [ -f "$afs_configuration_file_location" ]; then
           source "$afs_configuration_file_location"       
-      elif [ "$USERNAME" == "" ]; then
+      elif [ "$id_epita" == "" ]; then
           reconfiguration
           break
       else 
           reconfiguration
       fi
   done
-  id_epita=$USERNAME
 
   # Calling functions
   ticket_generation "$id_epita"
