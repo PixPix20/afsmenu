@@ -49,7 +49,7 @@ fi
 mkdir -p "$afs_configuration_location"
 
 # User name registration
-echo "USERNAME=$username" > "$afs_configuration_file_location"
-echo "LANGUAGE=$language" >>"$afs_configuration_file_location"
+echo "id_epita=$username" > "$afs_configuration_file_location"
+echo "language=$language" >>"$afs_configuration_file_location"
 
 message "$msg_installation_complete"
