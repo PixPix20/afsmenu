@@ -1,7 +1,7 @@
 [Desktop Entry]
 Name=AFS Connexion
 Comment=Connexion automatique à l'AFS
-Exec=/usr/bin/afs_connexion_script.sh
+Exec=/usr/bin/afs/afs_connexion_script.sh
 Icon=/usr/share/icons/afs_menu/logo.png
 Terminal=true
 StartupNotify=false
