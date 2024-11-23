@@ -17,21 +17,18 @@ language=$(whiptail --title "Configuration" --menu "Choix de la langue | Languag
 "fr" "Français" \
 "en" "English" 3>&1 1>&2 2>&3)
 
-# Loading language files
-source "./lang/lang_$language.sh"
-
 # Message display function
 function message {
-  (whiptail --title "$title" --msgbox "$1" 10 60)
+  (whiptail --title "Configuration" --msgbox "$1" 10 60)
 }
 
 # User name recovery
 if [ -f "$afs_configuration_file_location" ]; then
     username=$(grep USER "$afs_configuration_file_location" | cut -d= -f2)
 else
-    username=$(whiptail --title "$title" --inputbox "$msg_enter_username" 10 60 3>&1 1>&2 2>&3)
+    username=$(whiptail --title "$title" --inputbox "Enter your username" 10 60 3>&1 1>&2 2>&3)
     if [ $? -ne 0 ]; then
-        message "$msg_installation_cancelled"
+        message "Installation cancelled"
         exit 1
     fi
 fi
@@ -52,4 +49,4 @@ mkdir -p "$afs_configuration_location"
 echo "id_epita=$username" > "$afs_configuration_file_location"
 echo "language=$language" >>"$afs_configuration_file_location"
 
-message "$msg_installation_complete"
+message "Installation complete"
