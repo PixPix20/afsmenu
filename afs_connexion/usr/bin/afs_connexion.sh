@@ -1,6 +1,6 @@
 #!/bin/bash
 #variables
-version="1.2"
+version="1.4"
 host="epita.fr"
 cri_host_kerberos="CRI.EPITA.FR"
 cri_host="cri.$host"
@@ -9,7 +9,7 @@ url="/afs/$cri_host/user"
 afs_configuration_location="$HOME/.afs"
 afs_configuration_file_location="$afs_configuration_location/configuration.conf"
 afs_location="$HOME/afs"
-language_file_location="./lang"
+language_file_location="/usr/share/afs/lang"
 
 # Function to handle errors and stop the script in case of failure
 function error {
@@ -226,6 +226,7 @@ function prestart {
   else
       error "Le fichier de configuration est manquant ! | The configuration file is missing !"
   fi
+  
   start
 }
 

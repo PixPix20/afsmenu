@@ -1,3 +1,4 @@
+
 #!/bin/bash
 #statut
 msg_error="Connection stopped !"

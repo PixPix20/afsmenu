@@ -12,41 +12,66 @@ Host ssh.cri.epita.fr
   GSSAPIAuthentication yes
   GSSAPIDelegateCredentials yes"
 
+# Charger les messages selon la langue
+function load_language {
+  if [ "$language" == "fr" ]; then
+      title="Configuration"
+      msg_install_cancelled="Installation annulée"
+      msg_username_prompt="Entrez votre nom d'utilisateur"
+      msg_install_complete="Installation terminée"
+  else
+      title="Configuration"
+      msg_install_cancelled="Installation cancelled"
+      msg_username_prompt="Enter your username"
+      msg_install_complete="Installation complete"
+  fi
+}
+
+
 # Language selection
 language=$(whiptail --title "Configuration" --menu "Choix de la langue | Language selection" 10 60 2 \
 "fr" "Français" \
 "en" "English" 3>&1 1>&2 2>&3)
 
+load_language
+
+
 # Message display function
 function message {
-  (whiptail --title "Configuration" --msgbox "$1" 10 60)
+  (whiptail --title "$title" --msgbox "$1" 10 60)
 }
 
 # User name recovery
 if [ -f "$afs_configuration_file_location" ]; then
     username=$(grep USER "$afs_configuration_file_location" | cut -d= -f2)
 else
-    username=$(whiptail --title "$title" --inputbox "Enter your username" 10 60 3>&1 1>&2 2>&3)
+    username=$(whiptail --title "$title" --inputbox "$msg_username_prompt" 10 60 3>&1 1>&2 2>&3)
     if [ $? -ne 0 ]; then
-        message "Installation cancelled"
+        message "$msg_install_cancelled"
         exit 1
     fi
 fi
 
 # SSH configuration
-
+if [ ! -d "$HOME/.ssh" ]; then
+  mkdir "$HOME/.ssh"
+  chmod 700 "$HOME/.ssh"
+fi
 if [ ! -f "$ssh_configuration_location" ]; then 
-  touch "$ssh_configuration_location" 
+  touch "$ssh_configuration_location"
+  chmod 600 "$ssh_configuration_location"
 fi 
-if ! grep -q "Host git.cri.epita.fr" "$ssh_configuration_location"; then 
+if ! grep -q "$host_configuration" "$ssh_configuration_location"; then 
   echo "$host_configuration" >> "$ssh_configuration_location" 
+  
 fi
 
 # Create configuration directory if necessary
 mkdir -p "$afs_configuration_location"
 
+
 # User name registration
 echo "id_epita=$username" > "$afs_configuration_file_location"
 echo "language=$language" >>"$afs_configuration_file_location"
 
-message "Installation complete"
+message "$msg_install_complete"
