@@ -1,6 +1,6 @@
 #!/bin/bash
 #variables
-version="1.0"
+version="1.1"
 host="epita.fr"
 cri_host_kerberos="CRI.EPITA.FR"
 cri_host="cri.$host"
@@ -13,7 +13,7 @@ language_file_location="/usr/share/afs/lang"
 
 # Function to handle errors and stop the script in case of failure
 function error {
-  printf "\033[31m %s %s \033[0m\n" "$1" "$connection_stop"
+  printf "\033[31m %s %s \033[0m\n" "$s" "$connection_stop"
   sleep 3
   exit 1
 }
@@ -66,25 +66,27 @@ function start {
   debug "$dependency_check_start"
   for cmd in kinit sshfs whiptail; do
       if ! command -v "$cmd" &> /dev/null; then
-          error "$dependency_check_missing"
+          error "$dependency_check_missing $cmd"
       fi
   done
   success "$dependency_check_success"
 
   for ((attempt=1; attempt<=2; attempt++)); do 
-      if [ -f "$afs_configuration_file_location" ]; then
-          source "$afs_configuration_file_location"       
-      elif [ "$id_epita" == "" ]; then
-          reconfiguration
-          break
-      else 
-          reconfiguration
-      fi
+    if [ -f "$afs_configuration_file_location" ]; then
+        source "$afs_configuration_file_location"
+        if [ -z "$id_epita" ]; then
+            reconfiguration
+            break
+        fi
+    else
+        reconfiguration
+        break
+    fi
   done
 
   ticket_generation "$id_epita"
   file_generation 
-  afs_connection "$id_epita"
+  sshfs_connection "$id_epita"
 }
 
 function reconfiguration {
@@ -99,7 +101,7 @@ function reconfiguration {
       if [ $? -ne 0 ]; then
           error "$config_invalid"
       fi
-      echo "USERNAME=$id_epita" >> "$afs_configuration_file_location"
+      echo "id_epita=$id_epita" >> "$afs_configuration_file_location"
   else
       error "$config_invalid"
   fi
@@ -143,7 +145,7 @@ function afs_dismount {
   fi
 }
 
-function afs_connection {
+function sshfs_connection {
   id_epita=$1
   first_letter=$(echo "$id_epita" | head -c 1)
   second_letter=$(echo "$id_epita" | head -c 2)
