@@ -14,7 +14,7 @@ connection_check_failed="Impossible de se connecter à l'intranet.
 
 # Dépendances
 dependency_check_start="Vérification des dépendances..."
-dependency_check_missing="La commande %s n'est pas installée ou introuvable."
+dependency_check_missing="La commande n'est pas installée ou introuvable : "
 dependency_check_success="Toutes les dépendances sont présentes."
 
 # Configuration
@@ -26,7 +26,7 @@ config_invalid="Impossible de continuer sans un fichier de configuration valide 
 
 # Kerberos
 kerberos_ticket_generate_for="Génération du ticket Kerberos pour"
-kerberos_ticket_generate_attempt="(Tentative n°%d)"
+kerberos_ticket_generate_attempt="Tentative n°"
 kerberos_ticket_generate_retry="Échec de la génération du ticket Kerberos. Veuillez réessayer."
 kerberos_ticket_generate_success="Ticket généré avec succès."
 kerberos_ticket_generate_failed="Échec de l'authentification Kerberos après 3 tentatives."
@@ -44,7 +44,7 @@ answer_yes="OUI"
 answer_no="NON"
 
 # SSHFS
-sshfs_connect_attempt="Tentative de connexion à l'AFS sur %s"
+sshfs_connect_attempt="Tentative de connexion à l'AFS sur"
 sshfs_connect_success="Connexion SSHFS réussie. Votre AFS se trouve dans votre dossier personnel."
 sshfs_connect_retry="Échec de la connexion SSHFS. Nouvelle tentative dans 3 secondes."
 sshfs_connect_failed="Échec de la connexion SSHFS après 2 tentatives."
