@@ -8,4 +8,4 @@ Icon=/usr/share/icons/afs/logo
 Terminal=true
 StartupNotify=false
 Type=Application
-Categories=Utility:
+Categories=Utility;
