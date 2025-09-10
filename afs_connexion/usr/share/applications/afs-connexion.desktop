@@ -1,9 +1,11 @@
 [Desktop Entry]
-Name=AFS Connexion
-Comment=Connexion automatique à l'AFS
+Name=AFS Connection
+Name[fr]=Connexion AFS
+Comment=Connect to your EPITA AFS account
+Comment[fr]=Permet de se connecter à son AFS d'EPITA
 Exec=/usr/bin/afs_connexion_script.sh
-Icon=/usr/share/icons/afs/logo.png
+Icon=/usr/share/icons/afs/logo
 Terminal=true
 StartupNotify=false
 Type=Application
-Categories=Utility;
+Categories=Utility:
