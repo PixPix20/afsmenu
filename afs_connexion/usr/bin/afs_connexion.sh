@@ -45,18 +45,23 @@ function start {
   # 3. Connect to AFS via the AFS folder in the home directory (/home/user/afs)
   
 ######################################################################### 
-  printf "%s\n" "          _                   _              _ "
-  printf "%s\n" "         / /\                /\ \           / /\ "
-  printf "%s\n" "        / /  \              /  \ \         / /  \ "
-  printf "%s\n" "       / / /\ \            / /\ \ \       / / /\ \__ "
-  printf "%s\n" "      / / /\ \ \          / / /\ \_\     / / /\ \___\ "
-  printf "%s\n" "     / / /  \ \ \        / /_/_ \/_/     \ \ \ \/___/ "
-  printf "%s\n" "    / / /___/ /\ \      / /____/\         \ \ \ "
-  printf "%s\n" "   / / /_____/ /\ \    / /\____\/     _    \ \ \ "
-  printf "%s\n" "  / /_________/\ \ \  / / /          /_/\__/ / / "
-  printf "%s\n" " / / /_       __\ \_\/ / /           \ \/___/ / "
-  printf "%s\n" " \_\___\     /____/_/\/_/             \_____/\/ "
-  printf "%s\n" "Version : $version"
+printf "%s\n               AAA               FFFFFFFFFFFFFFFFFFFFFF   SSSSSSSSSSSSSSS"
+printf "%s\n              A:::A              F::::::::::::::::::::F SS:::::::::::::::S"
+printf "%s\n             A:::::A             F::::::::::::::::::::FS:::::SSSSSS::::::S"
+printf "%s\n            A:::::::A            FF::::::FFFFFFFFF::::FS:::::S     SSSSSSS"
+printf "%s\n           A:::::::::A             F:::::F       FFFFFFS:::::S"           
+printf "%s\n          A:::::A:::::A            F:::::F             S:::::S"        
+printf "%s\n         A:::::A A:::::A           F::::::FFFFFFFFFF    S::::SSSS"   
+printf "%s\n        A:::::A   A:::::A          F:::::::::::::::F     SS::::::SSSSS" 
+printf "%s\n       A:::::A     A:::::A         F:::::::::::::::F       SSS::::::::SS"
+printf "%s\n      A:::::AAAAAAAAA:::::A        F::::::FFFFFFFFFF          SSSSSS::::S"
+printf "%s\n     A:::::::::::::::::::::A       F:::::F                         S:::::S"
+printf "%s\n     A:::::AAAAAAAAAAAAA:::::A      F:::::F                         S:::::S"
+printf "%s\n    A:::::A             A:::::A   FF:::::::FF           SSSSSSS     S:::::S"
+printf "%s\n   A:::::A               A:::::A  F::::::::FF           S::::::SSSSSS:::::S"
+printf "%s\n  A:::::A                 A:::::A F::::::::FF           S:::::::::::::::SS"
+printf "%s\n AAAAAAA                   AAAAAAAFFFFFFFFFFF            SSSSSSSSSSSSSSS\n\n"
+printf "%s\n" "Version : $version"
 #########################################################################
 
   if ! ping -c 1 -W 3 "$host" > /dev/null; then
