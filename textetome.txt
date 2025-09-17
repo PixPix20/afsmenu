@@ -1,0 +1,2 @@
+VARIABLES DE CONNEXION : 
+- epita_id -> identifiant epita

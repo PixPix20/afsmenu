@@ -2,12 +2,17 @@
 set -e
 
 # Variables
-afs_configuration_file_location="$HOME/.afs/configuration.conf"
-ssh_configuration_location="$HOME/.ssh/config"
-afs_configuration_location="$HOME/.afs"
+# Utilisateur réel (même si script exécuté via sudo)
+real_user="${SUDO_USER:-$USER}"
+real_home=$(eval echo "~$real_user")
+
+afs_configuration_file_location="$real_home/.afs/configuration.conf"
+ssh_configuration_location="$real_home/.ssh/config"
+afs_configuration_location="$real_home/.afs"
+
 host_configuration="Host git.cri.epita.fr
   GSSAPIAuthentication yes
-                       
+
 Host ssh.cri.epita.fr
   GSSAPIAuthentication yes
   GSSAPIDelegateCredentials yes"
@@ -55,11 +60,11 @@ fi
 # SSH configuration
 if [ ! -d "$HOME/.ssh" ]; then
   mkdir "$HOME/.ssh"
-  chmod 700 "$HOME/.ssh"
+  chown -R "$real_user:$real_user" "$HOME/.ssh"
 fi
 if [ ! -f "$ssh_configuration_location" ]; then 
   touch "$ssh_configuration_location"
-  chmod 600 "$ssh_configuration_location"
+  chown -R "$real_user:$real_user" "$ssh_configuration_location"
 fi 
 if ! grep -q "$host_configuration" "$ssh_configuration_location"; then 
   echo "$host_configuration" >> "$ssh_configuration_location" 
@@ -69,9 +74,9 @@ fi
 # Create configuration directory if necessary
 mkdir -p "$afs_configuration_location"
 
-
 # User name registration
 echo "id_epita=$username" > "$afs_configuration_file_location"
 echo "language=$language" >>"$afs_configuration_file_location"
+chown -R "$real_user:$real_user" "$afs_configuration_location"
 
 message "$msg_install_complete"

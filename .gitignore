@@ -1,3 +1,4 @@
 *.deb
 .idea/
+./textetome.text
 /afs_connexion.zip
