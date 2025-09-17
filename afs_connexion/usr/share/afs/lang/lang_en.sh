@@ -1,38 +1,55 @@
-
 #!/bin/bash
-#statut
-msg_error="Connection stopped !"
-msg_warning="Warning!"
-msg_no_connection="Unable to connect to the intranet.
+# Message file for main script
+# Convention: <group>_<subject>_<action>[_<status>]
+
+# Warnings
+warning_general="Warning!"
+
+# Connection
+connection_stop="Connection stopped!"
+connection_check_failed="Unable to connect to the intranet.
   1. Check that you are connected to the internet.
-  2. If you are connected, it may be an issue with EPITA.
+  2. If you are connected, the issue may be with EPITA.
   3. Check the CRI blog for more information."
-msg_checking_dependencies="Checking dependencies..."
-msg_dependency_check_failed_part_one="The command "
-msg_dependency_check_failed_part_two="is not installed or not found."
-msg_dependency_checking_success="All dependencies are present."
-msg_missing_config="The configuration file is missing and/or incomplete!
+
+# Dependencies
+dependency_check_start="Checking dependencies..."
+dependency_check_missing="The command is not installed or not found : "
+dependency_check_success="All dependencies are present."
+
+# Configuration
+config_check_failed="The configuration file is missing and/or incomplete!
 Would you like to reconfigure AFS? (y/n)"
-msg_file_creation="Creating .afs folder"
-msg_enter_username="Please enter your EPITA account username (firstname.lastname):"
-msg_invalid_config="Cannot proceed without a valid configuration file!"
-msg_kerberos_generation="Generating Kerberos ticket for"
-msg_attempt="(Attempt n°"
-msg_ticket_success="Ticket successfully generated."
-msg_kerberos_failure="Kerberos ticket generation failed. Please try again."
-msg_kerberos_auth_failure="Kerberos authentication failed after 3 attempts."
-msg_afs_mounted="The AFS drive is already mounted."
-msg_afs_unmounting="Unmounting the AFS drive..."
-msg_afs_unmounted="AFS drive successfully unmounted."
-msg_afs_unmount_failure="Failed to unmount the AFS drive."
-msg_afs_already_connected="You are already connected to AFS. Would you like to reconnect?"
-msg_afs_already_connected_no_need="You are already connected to AFS; no need to reconnect."
-msg_yes="YES"
-msg_no="NO"
-msg_afs_connection_attempt="Attempting to connect to AFS on"
-msg_sshfs_success="SSHFS connection successful. Your AFS is in your home directory."
-msg_sshfs_failure="SSHFS connection failed. Retrying in 3 seconds."
-msg_sshfs_failure_final="SSHFS connection failed after 2 attempts."
-msg_afs_creation="Creating the afs folder."
-msg_afs_tip="Tip: You can add this folder to your bookmarks, but remember to reconnect!"
-msg_afs_connected_success="Successfully connected to AFS."
+config_create_dir="Creating .afs folder"
+config_prompt_username="Please enter your EPITA account username (firstname.lastname):"
+config_invalid="Cannot proceed without a valid configuration file!"
+
+# Kerberos
+kerberos_ticket_generate_for="Generating Kerberos ticket for"
+kerberos_ticket_generate_attempt="Attempt #"
+kerberos_ticket_generate_retry="Kerberos ticket generation failed. Please try again."
+kerberos_ticket_generate_success="Ticket successfully generated."
+kerberos_ticket_generate_failed="Kerberos authentication failed after 3 attempts."
+
+# AFS
+afs_mount_already="The AFS drive is already mounted."
+afs_unmount_start="Unmounting the AFS drive..."
+afs_unmount_success="AFS drive successfully unmounted."
+afs_unmount_failed="Failed to unmount the AFS drive."
+afs_already_connected_prompt="You are already connected to AFS. Would you like to reconnect?"
+afs_already_connected_no_action="You are already connected to AFS; no need to reconnect."
+
+# Answers
+answer_yes="YES"
+answer_no="NO"
+
+# SSHFS
+sshfs_connect_attempt="Attempting to connect to AFS on"
+sshfs_connect_success="SSHFS connection successful. Your AFS is in your home directory."
+sshfs_connect_retry="SSHFS connection failed. Retrying in 3 seconds."
+sshfs_connect_failed="SSHFS connection failed after 2 attempts."
+
+# Directories
+afs_dir_create="Creating the AFS folder."
+afs_dir_tip="Tip: You can add this folder to your bookmarks, but remember to reconnect!"
+afs_connect_success="Successfully connected to AFS."
