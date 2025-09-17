@@ -1,6 +1,6 @@
 #!/bin/bash
 #variables
-version="1.2"
+version="1.3"
 host="epita.fr"
 cri_host_kerberos="CRI.EPITA.FR"
 cri_host="cri.$host"
