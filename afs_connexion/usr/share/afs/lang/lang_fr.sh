@@ -9,7 +9,7 @@ warning_general="Attention !"
 connection_stop="Arrêt de la connexion !"
 connection_check_failed="Impossible de se connecter à l'intranet.
   1. Vérifiez que vous êtes connecté à internet.
-  2. Si vous êtes connecté, cela vient peut-être d'EPITA.
+  2. Si vous êtes connecté, cela vient peut-être d'EPITA (essayez de vous connecter à la forge).
   3. Consultez le blog du cri pour en savoir plus."
 
 # Dépendances
@@ -50,6 +50,6 @@ sshfs_connect_retry="Échec du montage de votre AFS avec SSHFS. Nouvelle tentati
 sshfs_connect_failed="Échec de montage de votre AFS avec SSHFS après 2 tentatives."
 
 # Dossiers
-afs_dir_create="Création du dossier de l'AFS."
+afs_dir_create="Création du dossier pour votre AFS."
 afs_dir_tip="Petit tip : Vous pouvez ajouter ce dossier dans vos signets, mais pensez à vous reconnecter !"
-afs_connect_success="Connecté avec succès à l'AFS."
+afs_connect_success="Connecté avec succès à votre AFS."
