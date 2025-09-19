@@ -32,22 +32,22 @@ kerberos_ticket_generate_success="Ticket généré avec succès."
 kerberos_ticket_generate_failed="Échec de l'authentification Kerberos après 3 tentatives."
 
 # AFS
-afs_mount_already="Le disque AFS est déjà monté."
-afs_unmount_start="Démontage du disque AFS en cours..."
-afs_unmount_success="Disque AFS démonté avec succès."
-afs_unmount_failed="Échec du démontage du disque AFS."
-afs_already_connected_prompt="Vous êtes déjà connecté à l'AFS. Voulez-vous vous reconnecter ?"
-afs_already_connected_no_action="Vous êtes déjà connecté à l'AFS, pas besoin de vous reconnecter."
+afs_mount_already="Votre AFS est déjà monté."
+afs_unmount_start="Démontage de votre AFS en cours..."
+afs_unmount_success="Votre AFS a été démonté avec succès."
+afs_unmount_failed="Échec du démontage de votre AFS."
+afs_already_connected_prompt="Votre AFS est déjà monté sur votre ordinateur. Voulez-vous le démonter puis le remonter ?"
+afs_already_connected_no_action="Votre AFS est déjà monté, pas besoin de vous reconnecter."
 
 # Réponses
 answer_yes="OUI"
 answer_no="NON"
 
 # SSHFS
-sshfs_connect_attempt="Tentative de connexion à l'AFS sur"
-sshfs_connect_success="Connexion SSHFS réussie. Votre AFS se trouve dans votre dossier personnel."
-sshfs_connect_retry="Échec de la connexion SSHFS. Nouvelle tentative dans 3 secondes."
-sshfs_connect_failed="Échec de la connexion SSHFS après 2 tentatives."
+sshfs_connect_attempt="Tentative de montage de votre AFS depuis"
+sshfs_connect_success="Montage de votre AFS avec SSHFS réussie. Votre AFS se trouve dans votre dossier personnel. (~/afs)"
+sshfs_connect_retry="Échec du montage de votre AFS avec SSHFS. Nouvelle tentative dans 3 secondes."
+sshfs_connect_failed="Échec de montage de votre AFS avec SSHFS après 2 tentatives."
 
 # Dossiers
 afs_dir_create="Création du dossier de l'AFS."
